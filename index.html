@@ -1,0 +1,882 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="A classy retro surprise 40th birthday celebration website for Ayo." />
+  <title>Ayo Turns 40! | #Ayo40SharesOfFun</title>
+  <style>
+    :root {
+      --bg: #0b0b0f;
+      --bg-soft: #14141c;
+      --card: rgba(20, 20, 28, 0.88);
+      --gold: #d4af37;
+      --gold-soft: #f3dc8d;
+      --purple: #8a3ffc;
+      --pink: #ff4fd8;
+      --text: #f5f1e8;
+      --muted: #cdbfa4;
+      --line: rgba(255,255,255,0.10);
+      --success: #7dffa0;
+      --shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      --radius-lg: 28px;
+      --radius-md: 18px;
+      --radius-sm: 12px;
+      --max: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Inter, Arial, Helvetica, sans-serif;
+      color: var(--text);
+      background:
+        radial-gradient(circle at 10% 20%, rgba(138, 63, 252, 0.15), transparent 30%),
+        radial-gradient(circle at 80% 10%, rgba(255, 79, 216, 0.14), transparent 28%),
+        radial-gradient(circle at 70% 80%, rgba(212, 175, 55, 0.12), transparent 26%),
+        linear-gradient(135deg, #050507 0%, #101018 40%, #09090c 100%);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select {
+      font: inherit;
+    }
+
+    .site-shell {
+      position: relative;
+      min-height: 100vh;
+      isolation: isolate;
+    }
+
+    .lights,
+    .confetti {
+      pointer-events: none;
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+
+    .lights::before,
+    .lights::after {
+      content: "";
+      position: absolute;
+      width: 42vw;
+      height: 42vw;
+      filter: blur(48px);
+      opacity: 0.28;
+      animation: floatGlow 9s ease-in-out infinite alternate;
+    }
+
+    .lights::before {
+      top: -10%;
+      left: -8%;
+      background: radial-gradient(circle, rgba(138, 63, 252, 0.95), transparent 62%);
+    }
+
+    .lights::after {
+      right: -10%;
+      bottom: -14%;
+      background: radial-gradient(circle, rgba(255, 79, 216, 0.85), transparent 60%);
+      animation-delay: 1.2s;
+    }
+
+    .confetti span {
+      position: absolute;
+      top: -10vh;
+      width: 10px;
+      height: 18px;
+      opacity: 0.7;
+      border-radius: 2px;
+      animation: fall linear infinite;
+    }
+
+    .confetti span:nth-child(odd) { background: var(--gold); }
+    .confetti span:nth-child(even) { background: var(--purple); }
+    .confetti span:nth-child(3n) { background: var(--pink); }
+
+    .container {
+      width: min(calc(100% - 2rem), var(--max));
+      margin: 0 auto;
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      backdrop-filter: blur(16px);
+      background: rgba(5, 5, 9, 0.65);
+      border-bottom: 1px solid var(--line);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      padding: 0.95rem 0;
+    }
+
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .brand-badge {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      color: #111;
+      background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+      box-shadow: 0 0 22px rgba(212, 175, 55, 0.35);
+      font-weight: 900;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      justify-content: flex-end;
+    }
+
+    .nav-links a {
+      color: var(--muted);
+      font-weight: 600;
+      transition: 0.25s ease;
+    }
+
+    .nav-links a:hover,
+    .nav-links a:focus-visible {
+      color: var(--text);
+    }
+
+    .section {
+      padding: 5.5rem 0;
+      position: relative;
+    }
+
+    .hero {
+      padding-top: 4rem;
+      min-height: calc(100vh - 76px);
+      display: grid;
+      align-items: center;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 2rem;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      padding: 0.5rem 0.9rem;
+      border: 1px solid rgba(212, 175, 55, 0.28);
+      border-radius: 999px;
+      color: var(--gold-soft);
+      background: rgba(212, 175, 55, 0.06);
+      font-weight: 700;
+      font-size: 0.95rem;
+      margin-bottom: 1.1rem;
+    }
+
+    h1, h2, h3 {
+      margin: 0 0 1rem;
+      line-height: 1.1;
+    }
+
+    h1 {
+      font-size: clamp(2.8rem, 7vw, 5.6rem);
+      letter-spacing: -0.04em;
+    }
+
+    .accent {
+      background: linear-gradient(135deg, var(--gold-soft), var(--gold), #fff1bd);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hash {
+      display: block;
+      color: #d9b8ff;
+      font-size: clamp(1.1rem, 2.6vw, 1.55rem);
+      margin-bottom: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.03em;
+    }
+
+    .hero-copy p {
+      max-width: 58ch;
+      color: var(--muted);
+      font-size: 1.06rem;
+      margin: 0 0 1.35rem;
+    }
+
+    .welcome-card,
+    .detail-card,
+    .travel-card,
+    .hotel-card,
+    .rsvp-card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
+    }
+
+    .welcome-card {
+      padding: 1.5rem;
+      margin: 1.7rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .welcome-card::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(90deg, rgba(212,175,55,0.10), transparent 42%);
+      pointer-events: none;
+    }
+
+    .welcome-card strong {
+      color: var(--gold-soft);
+    }
+
+    .signature {
+      margin-top: 1rem;
+      color: #ecdfff;
+      font-weight: 700;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      margin-top: 1.4rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      min-height: 52px;
+      padding: 0.95rem 1.3rem;
+      border-radius: 999px;
+      border: 1px solid transparent;
+      font-weight: 800;
+      transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease, background 0.22s ease;
+      cursor: pointer;
+    }
+
+    .btn:hover,
+    .btn:focus-visible {
+      transform: translateY(-2px);
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, var(--gold), var(--gold-soft));
+      color: #111;
+      box-shadow: 0 14px 28px rgba(212, 175, 55, 0.22);
+    }
+
+    .btn-secondary {
+      background: rgba(255,255,255,0.02);
+      color: var(--text);
+      border-color: rgba(255,255,255,0.12);
+    }
+
+    .hero-photo-wrap {
+      position: relative;
+      display: grid;
+      place-items: center;
+      min-height: 420px;
+    }
+
+    .photo-glow {
+      position: absolute;
+      width: 88%;
+      aspect-ratio: 1 / 1;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(212,175,55,0.3), rgba(138,63,252,0.18), transparent 68%);
+      filter: blur(12px);
+      animation: pulse 4.2s ease-in-out infinite;
+    }
+
+    .hero-photo-frame {
+      position: relative;
+      width: min(100%, 430px);
+      border-radius: 32px;
+      padding: 0.8rem;
+      background: linear-gradient(145deg, rgba(212,175,55,0.9), rgba(255,79,216,0.7), rgba(138,63,252,0.8));
+      box-shadow: var(--shadow);
+      transform: rotate(-2deg);
+    }
+
+    .hero-photo {
+      border-radius: 26px;
+      min-height: 520px;
+      object-fit: cover;
+      width: 100%;
+      background: linear-gradient(135deg, #2b2332, #100e14);
+    }
+
+    .floating-note {
+      position: absolute;
+      right: -0.3rem;
+      bottom: 1.2rem;
+      padding: 0.75rem 1rem;
+      border-radius: 16px;
+      background: rgba(8,8,12,0.88);
+      border: 1px solid rgba(212,175,55,0.2);
+      box-shadow: 0 10px 24px rgba(0,0,0,0.25);
+      font-weight: 700;
+      color: var(--gold-soft);
+    }
+
+    .section-heading {
+      max-width: 760px;
+      margin-bottom: 2rem;
+    }
+
+    .section-heading h2 {
+      font-size: clamp(2rem, 4.5vw, 3.35rem);
+    }
+
+    .section-heading p {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .details-grid,
+    .travel-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.25rem;
+    }
+
+    .detail-card,
+    .travel-card,
+    .hotel-card,
+    .rsvp-card {
+      padding: 1.4rem;
+      height: 100%;
+    }
+
+    .detail-card h3,
+    .travel-card h3,
+    .hotel-card h3,
+    .rsvp-card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .label {
+      display: inline-block;
+      margin-bottom: 0.9rem;
+      padding: 0.35rem 0.7rem;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 800;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      background: rgba(138,63,252,0.14);
+      color: #e4ccff;
+      border: 1px solid rgba(138,63,252,0.18);
+    }
+
+    .highlight {
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-radius: 16px;
+      border: 1px solid rgba(212,175,55,0.24);
+      background: rgba(212,175,55,0.08);
+      color: var(--gold-soft);
+      font-weight: 700;
+    }
+
+    .stack {
+      display: grid;
+      gap: 0.85rem;
+    }
+
+    .stack p,
+    .detail-card p,
+    .travel-card p,
+    .hotel-card p,
+    .rsvp-card p,
+    li {
+      color: var(--muted);
+      margin: 0;
+    }
+
+    .music-list,
+    .hotels-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0.9rem;
+    }
+
+    .music-list li,
+    .hotels-list li {
+      padding: 0.95rem 1rem;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: rgba(255,255,255,0.02);
+    }
+
+    .map-wrap {
+      margin-top: 1rem;
+      border-radius: 22px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      min-height: 300px;
+      box-shadow: var(--shadow);
+    }
+
+    .map-wrap iframe {
+      width: 100%;
+      height: 100%;
+      min-height: 300px;
+      border: 0;
+      filter: grayscale(0.2) contrast(1.08);
+    }
+
+    .rsvp-layout {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 1.25rem;
+      align-items: start;
+    }
+
+    form {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1rem;
+    }
+
+    .field {
+      display: grid;
+      gap: 0.45rem;
+    }
+
+    label {
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    input,
+    select {
+      width: 100%;
+      min-height: 50px;
+      padding: 0.9rem 1rem;
+      border-radius: 14px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: var(--text);
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    input:focus,
+    select:focus {
+      border-color: rgba(212,175,55,0.55);
+      box-shadow: 0 0 0 4px rgba(212,175,55,0.08);
+    }
+
+    select option {
+      color: #111;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .form-note {
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+
+    .success-message {
+      display: none;
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-radius: 14px;
+      background: rgba(125,255,160,0.08);
+      border: 1px solid rgba(125,255,160,0.22);
+      color: var(--success);
+      font-weight: 700;
+    }
+
+    .hotels-grid {
+      display: grid;
+      gap: 1rem;
+    }
+
+    .transport-note {
+      margin-top: 1rem;
+      padding: 0.95rem 1rem;
+      border-radius: 16px;
+      background: rgba(138,63,252,0.10);
+      border: 1px solid rgba(138,63,252,0.18);
+      color: #eadbff;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 1.4rem 0 2.2rem;
+      background: rgba(4,4,7,0.55);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
+      color: var(--muted);
+    }
+
+    .footer-inner strong {
+      color: var(--gold-soft);
+    }
+
+    .footer-contact a {
+      color: var(--text);
+    }
+
+    @keyframes floatGlow {
+      from { transform: translateY(0) translateX(0) scale(1); }
+      to { transform: translateY(16px) translateX(14px) scale(1.08); }
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); opacity: 0.85; }
+      50% { transform: scale(1.06); opacity: 1; }
+    }
+
+    @keyframes fall {
+      to {
+        transform: translateY(120vh) rotate(540deg);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .hero-grid,
+      .rsvp-layout,
+      .details-grid,
+      .travel-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-photo-wrap {
+        order: -1;
+      }
+
+      .hero-photo {
+        min-height: 430px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .section { padding: 4.2rem 0; }
+      .hero { padding-top: 2.5rem; }
+      .nav { align-items: flex-start; }
+      .nav-links {
+        gap: 0.75rem;
+        font-size: 0.95rem;
+      }
+      .grid-2 { grid-template-columns: 1fr; }
+      .hero-actions { flex-direction: column; align-items: stretch; }
+      .btn { width: 100%; }
+      .floating-note {
+        position: static;
+        margin-top: 0.8rem;
+        justify-self: start;
+      }
+      .footer-inner { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+  <div class="site-shell">
+    <div class="lights"></div>
+    <div class="confetti" aria-hidden="true">
+      <span style="left:4%; animation-duration: 11s; animation-delay: -1s;"></span>
+      <span style="left:11%; animation-duration: 13s; animation-delay: -4s;"></span>
+      <span style="left:18%; animation-duration: 9s; animation-delay: -2s;"></span>
+      <span style="left:27%; animation-duration: 12s; animation-delay: -6s;"></span>
+      <span style="left:35%; animation-duration: 10s; animation-delay: -3s;"></span>
+      <span style="left:46%; animation-duration: 14s; animation-delay: -1s;"></span>
+      <span style="left:56%; animation-duration: 8.5s; animation-delay: -5s;"></span>
+      <span style="left:65%; animation-duration: 12.5s; animation-delay: -2s;"></span>
+      <span style="left:73%; animation-duration: 10.5s; animation-delay: -4s;"></span>
+      <span style="left:82%; animation-duration: 13.8s; animation-delay: -6s;"></span>
+      <span style="left:91%; animation-duration: 9.6s; animation-delay: -3s;"></span>
+    </div>
+
+    <header class="topbar">
+      <div class="container nav">
+        <a class="brand" href="#home" aria-label="Ayo Turns 40 home">
+          <span class="brand-badge">40</span>
+          <span>#Ayo40SharesOfFun</span>
+        </a>
+        <nav class="nav-links" aria-label="Primary navigation">
+          <a href="#home">Home</a>
+          <a href="#details">Event Details</a>
+          <a href="#rsvp">RSVP + Travel</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="section hero" id="home">
+        <div class="container hero-grid">
+          <div class="hero-copy">
+            <div class="eyebrow">🎉 Surprise Celebration • 80s Retro Elegance</div>
+            <h1><span class="accent">Ayo Turns 40!</span></h1>
+            <span class="hash">#Ayo40SharesOfFun</span>
+            <p>A surprise celebration you can’t miss. Come ready to laugh, dance, show love, and help make this milestone one for the books.</p>
+
+            <div class="welcome-card">
+              <strong>Welcome Note</strong>
+              <p>
+                With joy in my heart, I invite you to celebrate an incredible milestone for my amazing husband, Ayo, as he turns 40.<br><br>
+                This is a surprise celebration, and your presence will make it truly unforgettable.<br><br>
+                Kindly arrive early and ready to celebrate, laugh, and create beautiful memories together.<br><br>
+                I can’t wait to see you there! 💜
+              </p>
+              <div class="signature">— With love, [Wife’s Name]</div>
+            </div>
+
+            <div class="hero-actions">
+              <a class="btn btn-primary" href="#details">👉 View Event Details</a>
+              <a class="btn btn-secondary" href="#rsvp">RSVP Now</a>
+            </div>
+          </div>
+
+          <div class="hero-photo-wrap">
+            <div class="photo-glow"></div>
+            <div class="hero-photo-frame">
+              <img
+                class="hero-photo"
+                src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=900&q=80"
+                alt="Portrait placeholder for Ayo"
+              />
+            </div>
+            <div class="floating-note">🟣 Surprise. Style. Good vibes only.</div>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="details">
+        <div class="container">
+          <div class="section-heading">
+            <div class="eyebrow">🟡 Page 2</div>
+            <h2>Event Details</h2>
+            <p>Everything guests need, laid out properly. No confusion. No last-minute chaos.</p>
+          </div>
+
+          <div class="details-grid">
+            <article class="detail-card">
+              <span class="label">📍 Venue</span>
+              <h3>Elegant Q Banquet</h3>
+              <div class="stack">
+                <p>200 Yewtree Lane, Wythenshawe, Manchester, M23 0FF, United Kingdom</p>
+              </div>
+              <div class="map-wrap">
+                <iframe
+                  title="Map to Elegant Q Banquet"
+                  loading="lazy"
+                  allowfullscreen
+                  referrerpolicy="no-referrer-when-downgrade"
+                  src="https://www.google.com/maps?q=200%20Yewtree%20Lane%2C%20Wythenshawe%2C%20Manchester%2C%20M23%200FF%2C%20United%20Kingdom&output=embed">
+                </iframe>
+              </div>
+            </article>
+
+            <article class="detail-card">
+              <span class="label">⏰ Time & Arrival</span>
+              <h3>Be There Early</h3>
+              <div class="stack">
+                <p><strong>Event Time:</strong> 4:00 PM</p>
+                <p><strong>Guest Arrival:</strong> 3:45 PM</p>
+              </div>
+              <div class="highlight">⚠️ Please arrive by 3:45 PM to help us surprise the celebrant!</div>
+            </article>
+
+            <article class="detail-card">
+              <span class="label">🎭 Theme & Dress Code</span>
+              <h3>80s Retro Party</h3>
+              <div class="stack">
+                <p><strong>Women:</strong> Stylish Oleku <em>(modern twist encouraged!)</em></p>
+                <p><strong>Men:</strong> Dansiki</p>
+              </div>
+            </article>
+
+            <article class="detail-card">
+              <span class="label">🎶 Music & Vibes</span>
+              <h3>Soundtrack for the Night</h3>
+              <ul class="music-list">
+                <li><strong>Main Party Music:</strong><br>Afro Juju • Fuji • 80s Classics</li>
+                <li><strong>After Party:</strong><br>🪩 Disco Vibes</li>
+              </ul>
+            </article>
+          </div>
+
+          <div class="hero-actions" style="margin-top: 2rem;">
+            <a class="btn btn-primary" href="#rsvp">👉 RSVP Now</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="section" id="rsvp">
+        <div class="container">
+          <div class="section-heading">
+            <div class="eyebrow">🟢 Page 3</div>
+            <h2>RSVP + Travel Info</h2>
+            <p>Simple form up front. Stay options and transport details right beside it. That’s the right setup for guests on mobile.</p>
+          </div>
+
+          <div class="rsvp-layout">
+            <article class="rsvp-card">
+              <span class="label">📝 RSVP Form</span>
+              <h3>Confirm Attendance</h3>
+              <p class="form-note">This version is front-end only. To collect real responses, connect the form to Formspree, Netlify Forms, or your preferred form handler.</p>
+
+              <form id="rsvpForm">
+                <div class="grid-2">
+                  <div class="field">
+                    <label for="guest1">Guest 1 Name</label>
+                    <input type="text" id="guest1" name="guest1" placeholder="Enter full name" required>
+                  </div>
+                  <div class="field">
+                    <label for="guest2">Guest 2 Name</label>
+                    <input type="text" id="guest2" name="guest2" placeholder="Optional second guest">
+                  </div>
+                </div>
+
+                <div class="grid-2">
+                  <div class="field">
+                    <label for="attend">Will you attend?</label>
+                    <select id="attend" name="attend" required>
+                      <option value="">Select an option</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                  <div class="field">
+                    <label for="children">Are you coming with children?</label>
+                    <select id="children" name="children" required>
+                      <option value="">Select an option</option>
+                      <option value="Yes">Yes</option>
+                      <option value="No">No</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div class="field hidden" id="childrenCountField">
+                  <label for="childrenCount">If yes, how many?</label>
+                  <input type="number" min="1" id="childrenCount" name="childrenCount" placeholder="Enter number of children">
+                </div>
+
+                <button class="btn btn-primary" type="submit">Confirm Attendance</button>
+              </form>
+
+              <div class="success-message" id="successMessage">
+                Thanks — your RSVP has been noted on this device. Hook the form to a backend to receive submissions by email or spreadsheet.
+              </div>
+            </article>
+
+            <div class="hotels-grid">
+              <article class="hotel-card">
+                <span class="label">🏨 Nearby Hotels</span>
+                <h3>Stay Options</h3>
+                <ul class="hotels-list">
+                  <li><strong>Premier Inn Manchester Airport</strong><br>Runger Lane, Manchester, M90</li>
+                  <li><strong>Holiday Inn Express Manchester Airport</strong><br>Runger Lane, Manchester, M90</li>
+                  <li><strong>Ibis Budget Manchester Airport</strong><br>3 Palma Avenue, Manchester, M90</li>
+                </ul>
+              </article>
+
+              <article class="travel-card">
+                <span class="label">🚆 Transport Information</span>
+                <h3>Getting There</h3>
+                <div class="stack">
+                  <p><strong>Nearest Train Station:</strong> 🚉 Manchester Airport Station</p>
+                  <p><strong>Closest Area / Landmark:</strong> ✈️ Manchester Airport</p>
+                </div>
+                <div class="transport-note">
+                  The venue is just a short drive from the airport and easily accessible by taxi or rideshare.
+                </div>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <div><strong>#Ayo40SharesOfFun</strong> — Let’s make it unforgettable.</div>
+        <div class="footer-contact">Enquiries: <a href="tel:+440000000000">+44 0000 000000</a> • <a href="mailto:hello@example.com">hello@example.com</a></div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    const childrenSelect = document.getElementById('children');
+    const childrenCountField = document.getElementById('childrenCountField');
+    const form = document.getElementById('rsvpForm');
+    const successMessage = document.getElementById('successMessage');
+
+    childrenSelect.addEventListener('change', function () {
+      const show = this.value === 'Yes';
+      childrenCountField.classList.toggle('hidden', !show);
+      document.getElementById('childrenCount').required = show;
+      if (!show) document.getElementById('childrenCount').value = '';
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const payload = {
+        guest1: document.getElementById('guest1').value,
+        guest2: document.getElementById('guest2').value,
+        attend: document.getElementById('attend').value,
+        children: document.getElementById('children').value,
+        childrenCount: document.getElementById('childrenCount').value,
+        submittedAt: new Date().toISOString()
+      };
+
+      const existing = JSON.parse(localStorage.getItem('ayo40_rsvps') || '[]');
+      existing.push(payload);
+      localStorage.setItem('ayo40_rsvps', JSON.stringify(existing));
+
+      form.reset();
+      childrenCountField.classList.add('hidden');
+      document.getElementById('childrenCount').required = false;
+      successMessage.style.display = 'block';
+    });
+  </script>
+</body>
+</html>
